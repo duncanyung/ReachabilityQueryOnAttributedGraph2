@@ -27,6 +27,7 @@ class utility{
 		static const int soc_pokec_vertex_size = 1632803 + 1;
 		static const int dblp_vertex_size = 42251 + 1;
 		static const int PA_road_network = 1090918 + 1;
+		static const int FB_BFS1 = 1189767 + 1;
 
 		static void split(const string &,char,vector<int>&,bool);
 		static void splitToString(const string &,char,vector<string>&,bool);
@@ -34,8 +35,8 @@ class utility{
 		static int countIntDigit(int);
 		void readVertexToSuperNodeMapping(const char*,vector<int>&,vector<int>&);
 		int readTopology(const char*,vector<vector<pair<int,int> > >&,int numSuperNode = 0) ;
-		int readTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,int);
-		int scanTopologyFormat1(const char*,vector<vector<pair<int,int> > >&);
+		int readTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,int,char);
+		int scanTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,char);
 		void readAttrHash(const char*,vector<unsigned long long>&,bool);
 //		void readSynopsis(const char*,vector<double>&);
 };

@@ -1,4 +1,5 @@
 #include "utility.h"
+#include <unistd.h>
 
 /*void utility::readSynopsis(const char* synopsisFileName,vector<double>& synopsis){
 	FILE* syFile = fopen(synopsisFileName,"r");
@@ -85,17 +86,24 @@ int utility::readTopology(const char* fileName,vector<vector<pair<int,int> > >& 
 */
 	if(sFileName.find("PA_RoadNetwork")!=string::npos){
 		if(sFileName.find("SuperGraph")!=string::npos)
-			numEdge = readTopologyFormat1(fileName,topology,numSuperNode);
+			numEdge = readTopologyFormat1(fileName,topology,numSuperNode,'\t');
 		else if(sFileName.find("roadNet-PA")!=string::npos)
-			numEdge = readTopologyFormat1(fileName,topology,PA_road_network);
+			numEdge = readTopologyFormat1(fileName,topology,PA_road_network,'\t');
+	}
+
+	if(sFileName.find("FB_BFS1")!=string::npos){
+		if(sFileName.find("SuperGraph")!=string::npos)
+			numEdge = readTopologyFormat1(fileName,topology,numSuperNode,' ');
+		else if(sFileName.find("fb_bfs-1")!=string::npos)
+			numEdge = readTopologyFormat1(fileName,topology,FB_BFS1,' ');
 	}
 
 	return numEdge;
 }
 
-int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology){
+int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,char split_char){
 	string line;
-	char split_char='\t';
+//	char split_char='\t';
 	int maxID=0;
 	int minID=INT_MAX;
 	int lineCount=0,edgeIDCount=1;
@@ -108,29 +116,39 @@ int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int
 	while(getline(inFile,line)){
 		istringstream s(line);
 		vector<int> tokens;
+//		printf("%s\n",line.c_str());
+
 		for(string each; getline(s,each,split_char); ){
+//			printf("%d ",stoi(each));
 			tokens.push_back(stoi(each));
 			maxID=max(stoi(each),maxID);
 			minID=min(stoi(each),minID);
 		}
+//		printf("111\n");
+//		sleep(10000);
+
 		lineCount++;
-		if(lineCount%100000==0)
-			printf("Reading line %d\n",lineCount);
+		if(lineCount%1000==0)
+			printf("Reading line %d  edgeIDCount %d\n",lineCount,edgeIDCount);
 
-		int eID = 0;
 
-		pair<int,int> p = make_pair(min(tokens[0],tokens[1]),max(tokens[0],tokens[1]));
-		unordered_map<pair<int,int>,int,pairHash>::const_iterator got = edgeMap.find(p);
+		for(int i=1;i<tokens.size(); i++){
+			int eID = 0;
 
-		if(got == edgeMap.end()){
-			edgeMap.insert(make_pair(p,edgeIDCount));
-			eID = edgeIDCount;
-			edgeIDCount++;
-		}else{
-			eID = got->second;
+		
+			pair<int,int> p = make_pair(min(tokens[0],tokens[i]),max(tokens[0],tokens[i]));
+			unordered_map<pair<int,int>,int,pairHash>::const_iterator got = edgeMap.find(p);
+
+			if(got == edgeMap.end()){
+				edgeMap.insert(make_pair(p,edgeIDCount));
+				eID = edgeIDCount;
+				edgeIDCount++;
+			}else{
+				eID = got->second;
+			}
+
+			topology[tokens[0]].push_back(pair<int,int>(tokens[i],eID));
 		}
-
-		topology[tokens[0]].push_back(pair<int,int>(tokens[1],eID));
 //		printf("VID=%d topology.size()=%d\n",tokens[0]);
 	}
 	inFile.close();
@@ -140,12 +158,12 @@ int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int
 	return edgeIDCount;
 }
 
-int  utility::readTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,int numVertex){
+int  utility::readTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,int numVertex,char split_char){
 
 //	scanTopologyFormat1(fileName,topology,true); //collect info only
 	vector<pair<int,int> > adj;
 	topology.assign(numVertex,adj);
-	return scanTopologyFormat1(fileName,topology); //put tings into topology
+	return scanTopologyFormat1(fileName,topology,split_char); //put tings into topology
 
 }
 

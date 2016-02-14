@@ -14,8 +14,8 @@ echo start_Run_Expr_Script
 	numEAttr=3
 	numVAttr=10
 	maxDomainSize=10
-	vRowSize=60
-	eRowSize=60
+	vRowSize=30
+	eRowSize=30
 	numQuery=100
 	useConstraint=1
 	numSuperNode=1000

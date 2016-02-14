@@ -93,6 +93,13 @@ void Preprocessing(char const *argv[]){
 
 			utility ut;
 			vector<vector<pair<int,int> > > topology;
+
+//			string sFolderName(folderName);
+//			if(sFolderName.find("FB_BFS1")!=string::npos)
+//				graphSize = FB_BFS1;
+//			else if(sFolderName.find("PA_RoadNetwork")!=string::npos)
+//				graphSize = PA_road_network;
+
 			int numEdge = ut.readTopology(fileName,topology);
 
 			vector<query> queries;
