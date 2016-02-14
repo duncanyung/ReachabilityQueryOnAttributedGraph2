@@ -108,7 +108,8 @@ void ConstructSuperGraph::buildSynopsis2(const char* synopsisFileName,vector<int
 		}
 		row.append(",");
 //		printf("Row length=%d row.length=%d\n",synopsisSize*(10+1+1)+1,row.length());
-		int extraSpace = (synopsisSize+1)*attrRowSize + synopsisSize + 1 + 1 - row.size();
+//		int extraSpace = (synopsisSize+1)*attrRowSize + synopsisSize + 1 + 1 - row.size();
+		int extraSpace = synopsisSize*attrRowSize + synopsisSize - row.size() - 1;
 //		synopsisSize*(10+1+1)+1 - row.length();//numDigit;//assume maximum 10 digits per sample id
 		for(int j=0; j<extraSpace; j++)
 			row.append(" ");

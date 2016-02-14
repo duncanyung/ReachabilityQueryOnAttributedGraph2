@@ -4,6 +4,8 @@
 
 int IOCount = 0;
 int nodeVisited = 0;
+double totalSSPTime = 0, totalBFS_CTime = 0;
+
 
 pair<bool,pair<int,int> > QueryHandler::CReachabilityQuery(vector<vector<pair<int,int> > >& topology,vector<unsigned long long>& vertexHashValues,vector<unsigned long long>& edgeHashValues,query& q,const char* attrFolderName,int vRowSize,int eRowSize,bool useConstraint,bool hashOpt,vector<vector<pair<int,int> > >& stopology,vector<double>& vSynopsis,vector<double>& eSynopsis,vector<int>& S,const char* vSynopsisFileName,const char* eSynopsisFileName,int vSyRowSize,bool heuristic,vector<int>& partitionSize,int numVAttr,int numEAttr,int maxDom){
 
@@ -22,10 +24,19 @@ pair<bool,pair<int,int> > QueryHandler::CReachabilityQuery(vector<vector<pair<in
 	ifstream infE(edgeAttrFileName);
 
 	clock_t start = clock();
+//	q.src  = 553556;
+//	q.dest = 780384;
+
+//4.63 sec
+//	q.src = 403070;
+//	q.dest =695505;
+
 	printf("For debug: src %d dest %d topology.size()=%ld\n",q.src,q.dest,topology.size());
 
 	bool firstLoop = true;
 	//no need to check constraint of src
+
+
 	qu.push(make_pair(q.src,-1));//the second element of this pair is the super-edge to be ignored in super graph SP search
 	while(!qu.empty()){
 		pair<int,int> h = qu.front();
@@ -39,24 +50,31 @@ pair<bool,pair<int,int> > QueryHandler::CReachabilityQuery(vector<vector<pair<in
 		if(firstLoop == false){
 			int SuperEIgnore = h.second;
 			if(heuristic == true){
+//				clock_t start = clock();
 				SuperGraphShortestPath(q,S[h.first],S[q.dest],stopology,vSynopsis,eSynopsis,SSP,SuperEIgnore,vSynopsisFileName,eSynopsisFileName,vSyRowSize,vertexAttrFileName,vRowSize,eRowSize);
-				double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+//				double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+//				totalSSPTime = totalSSPTime + duration;
+//				printf("SSP Time=%f\n",duration);
 			}
-			firstLoop = false;
 		}else{
 			SSP.insert(S[h.first]);
 		}
-
+		firstLoop = false;
+//		clock_t start = clock();
 		bool result = BFS_C(h.first,topology,vertexHashValues,edgeHashValues,q,qu,visited,satTableE,satTableV,vertexAttrFileName,edgeAttrFileName,infV,infE,vRowSize,eRowSize,useConstraint,hashOpt,SSP,S,heuristic,vSynopsis,partitionSize);
-		double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+//		double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+//		totalBFS_CTime = totalBFS_CTime + duration;
+//		printf("BFS_C Time=%f nodeVisited=%d\n",duration,nodeVisited);
 
 		if(result == true){
+//			printf("totalSSPTime=%f totalBFS_CTime=%f\n",totalSSPTime,totalBFS_CTime);
 			return make_pair(true,make_pair(IOCount,nodeVisited));
 		}
 	}
 	infV.close();
 	infE.close();
 
+//	printf("totalSSPTime=%f totalBFS_CTime=%f\n",totalSSPTime,totalBFS_CTime);
 	return make_pair(false,make_pair(IOCount,nodeVisited));
 }
 
@@ -237,9 +255,11 @@ bool QueryHandler::BFS_C(int cur,vector<vector<pair<int,int> > >& topology,vecto
 
 			nodeVisited++;
 
-			bool withinSP = isWithinSSP(SP,S[adjVertex]);
-			if(withinSP == true)
-				visited[adjVertex] = true;
+//			if(heuristic == true){
+				bool withinSP = isWithinSSP(SP,S[adjVertex]);
+				if(withinSP == true)
+					visited[adjVertex] = true;
+//			}
 
 			//check Edge constraint
 			int adjEdgeID = topology[cur][i].second;

@@ -31,11 +31,11 @@ void AttrGenerator::_generateAttribute(const char* attrFolderName,vector<vector<
 
 	vector<int> attrDomainSize;
 	for(int i=0; i<numAttr; i++){
-//		int d = max(rand()%maxDomainSize,1);
-//		attrDomainSize.push_back(d);
-		attrDomainSize.push_back(maxDomainSize);
-//		fprintf(outInfoFile,"%d ",d);
-		fprintf(outInfoFile,"%d ",maxDomainSize);
+		int d = max(rand()%maxDomainSize,1);
+		attrDomainSize.push_back(d);
+//		attrDomainSize.push_back(maxDomainSize);
+		fprintf(outInfoFile,"%d ",d);
+//		fprintf(outInfoFile,"%d ",maxDomainSize);
 	}
 	fclose(outInfoFile);
 

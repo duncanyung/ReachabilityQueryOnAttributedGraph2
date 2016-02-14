@@ -27,6 +27,7 @@ void QueryGenerator::eraseConstraints(vector<vector<int> >& AttrCon,int numConst
 		int chooseAttr = rand()%AttrCon.size();
 		int size = AttrCon[chooseAttr].size();
 		if(size == 0){
+			printf("AttrCon.size()=%d chooseAttr=%d size=%d\n",AttrCon.size(),chooseAttr,size);
 			i--;
 			continue;
 		}

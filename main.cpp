@@ -163,18 +163,20 @@ void Query(char const *argv[]){
 	printf("topology size=%ld  vertexHashValues size=%ld edgeHashValue size=%ld\n\n",topology.size(),vertexHashValues.size(),edgeHashValues.size());
 	QueryHandler qh;
 
-	char queryTimeFileName[200], IOCountFileName[200],nodeVisitedCountFileName[200];
+	char queryTimeFileName[200], IOCountFileName[200],nodeVisitedCountFileName[200],notReachableCountFileName[200];
 	sprintf(queryTimeFileName,"%s/change_%s_QueryTime.txt",outFolderName,variable);
 	sprintf(IOCountFileName,"%s/change_%s_IOCount.txt",outFolderName,variable);
 	sprintf(nodeVisitedCountFileName,"%s/change_%s_NodeVisitedCount.txt",outFolderName,variable);
+	sprintf(notReachableCountFileName,"%s/change_%s_NotReachableCount.txt",outFolderName,variable);
 	FILE* queryTimeFile = fopen(queryTimeFileName,"a");
 	FILE* IOCountFile = fopen(IOCountFileName,"a");
 	FILE* nodeVisitedCountFile = fopen(nodeVisitedCountFileName,"a");
+	FILE* notReachableCountFile = fopen(notReachableCountFileName,"a");
 
 	//3 solutions
 	int hashOptList[3]   = {1,1,0};
 	int heuristicList[3] = {1,0,0};
-	for(int i=0; i<3; i++){
+	for(int i=0; i<2; i++){
 		int hashOpt = hashOptList[i];
 		int heuristic = heuristicList[i];
 		int notReachableCount = 0;
@@ -222,17 +224,20 @@ void Query(char const *argv[]){
 		fprintf(queryTimeFile,"%f %f ",avgQueryTime,maxTime);
 		fprintf(IOCountFile,"%f %d ",avgIOCount,maxIOCount);
 		fprintf(nodeVisitedCountFile,"%f %d ",avgNodeVisited,maxNodeVisited);
+		fprintf(notReachableCountFile,"%d ",notReachableCount);
 
-		if(i == 2){
+		if(i == 1){
 			fprintf(queryTimeFile,"\n");
 			fprintf(IOCountFile,"\n");
 			fprintf(nodeVisitedCountFile,"\n");
+			fprintf(notReachableCountFile,"\n");
 		}
 	}
 
 	fclose(queryTimeFile);
 	fclose(IOCountFile);
 	fclose(nodeVisitedCountFile);
+	fclose(notReachableCountFile);
 }
 
 int main(int argc, char const *argv[]){
