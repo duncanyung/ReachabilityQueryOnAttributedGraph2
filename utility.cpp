@@ -94,7 +94,7 @@ int utility::readTopology(const char* fileName,vector<vector<pair<int,int> > >& 
 	if(sFileName.find("FB_BFS1")!=string::npos){
 		if(sFileName.find("SuperGraph")!=string::npos)
 			numEdge = readTopologyFormat1(fileName,topology,numSuperNode,' ');
-		else if(sFileName.find("fb_bfs-1")!=string::npos)
+		else if(sFileName.find("bfs-1")!=string::npos)
 			numEdge = readTopologyFormat1(fileName,topology,FB_BFS1,' ');
 	}
 
@@ -106,56 +106,76 @@ int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int
 //	char split_char='\t';
 	int maxID=0;
 	int minID=INT_MAX;
-	int lineCount=0,edgeIDCount=1;
+	int lineCount=0;
 
-	unordered_map<pair<int,int>,int,pairHash> edgeMap;
+//	unordered_map<pair<int,int>,int,pairHash> edgeMap;
 
-//	printf("before open stream\n");
 	ifstream inFile(fileName);
-//	printf("after open stream\n");
 	while(getline(inFile,line)){
 		istringstream s(line);
 		vector<int> tokens;
-//		printf("%s\n",line.c_str());
 
 		for(string each; getline(s,each,split_char); ){
-//			printf("%d ",stoi(each));
 			tokens.push_back(stoi(each));
 			maxID=max(stoi(each),maxID);
 			minID=min(stoi(each),minID);
 		}
-//		printf("111\n");
-//		sleep(10000);
 
 		lineCount++;
-		if(lineCount%1000==0)
-			printf("Reading line %d  edgeIDCount %d\n",lineCount,edgeIDCount);
+		if(lineCount%10000==0)
+			printf("Reading line %d\n",lineCount);
 
 
 		for(int i=1;i<tokens.size(); i++){
 			int eID = 0;
-
 		
-			pair<int,int> p = make_pair(min(tokens[0],tokens[i]),max(tokens[0],tokens[i]));
-			unordered_map<pair<int,int>,int,pairHash>::const_iterator got = edgeMap.find(p);
+//			pair<int,int> p = make_pair(min(tokens[0],tokens[i]),max(tokens[0],tokens[i]));
+//			unordered_map<pair<int,int>,int,pairHash>::const_iterator got = edgeMap.find(p);
 
-			if(got == edgeMap.end()){
-				edgeMap.insert(make_pair(p,edgeIDCount));
-				eID = edgeIDCount;
-				edgeIDCount++;
-			}else{
-				eID = got->second;
-			}
+//			if(got == edgeMap.end()){
+//				edgeMap.insert(make_pair(p,edgeIDCount));
+//				eID = edgeIDCount;
+//				edgeIDCount++;
+//			}else{
+//				eID = got->second;
+//			}
 
 			topology[tokens[0]].push_back(pair<int,int>(tokens[i],eID));
 		}
 //		printf("VID=%d topology.size()=%d\n",tokens[0]);
 	}
+
+	int edgeIDCount = assignEdgeID(topology);
 	inFile.close();
 
 	printf("min Vertex ID=%d max Vertex ID=%d lineCount=%d EdgeCount=%d\n",minID,maxID,lineCount,edgeIDCount);
 
 	return edgeIDCount;
+}
+
+int utility::assignEdgeID(vector<vector<pair<int,int>> >& topology){
+	int eID = 0;
+	for(int i=0; i<topology.size(); i++){
+		for(int j=0; j<topology[i].size(); j++){
+			int adjVertex = topology[i][j].first;
+			if(i < adjVertex){
+				topology[i][j].second = eID;
+				eID++;
+			}else{
+				for(int k=0; k<topology[adjVertex].size(); k++){
+					if(topology[adjVertex][k].first == i){
+						topology[i][j].second = topology[adjVertex][k].second;
+						break;
+					}
+				}
+			}
+		}
+
+		if(i%10000==0)
+			printf("Reading line %d  edgeIDCount %d\n",i,eID);
+	}
+
+	return eID;
 }
 
 int  utility::readTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,int numVertex,char split_char){

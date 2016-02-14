@@ -33,6 +33,7 @@ class utility{
 		static void splitToString(const string &,char,vector<string>&,bool);
 		static void IOAttr(int,vector<int>&,ifstream&,int,string& attrData);
 		static int countIntDigit(int);
+		int assignEdgeID(vector<vector<pair<int,int>> >&);
 		void readVertexToSuperNodeMapping(const char*,vector<int>&,vector<int>&);
 		int readTopology(const char*,vector<vector<pair<int,int> > >&,int numSuperNode = 0) ;
 		int readTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,int,char);
