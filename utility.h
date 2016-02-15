@@ -37,7 +37,7 @@ class utility{
 		void readVertexToSuperNodeMapping(const char*,vector<int>&,vector<int>&);
 		int readTopology(const char*,vector<vector<pair<int,int> > >&,int numSuperNode = 0) ;
 		int readTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,int,char);
-		int scanTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,char);
+		int scanTopologyFormat1(const char*,vector<vector<pair<int,int> > >&,char,int);
 		void readAttrHash(const char*,vector<unsigned long long>&,bool);
 //		void readSynopsis(const char*,vector<double>&);
 };

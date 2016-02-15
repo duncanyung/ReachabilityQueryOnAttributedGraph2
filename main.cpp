@@ -183,7 +183,7 @@ void Query(char const *argv[]){
 	//3 solutions
 	int hashOptList[3]   = {1,1,0};
 	int heuristicList[3] = {1,0,0};
-	for(int i=0; i<2; i++){
+	for(int i=0; i<3; i++){
 		int hashOpt = hashOptList[i];
 		int heuristic = heuristicList[i];
 		int notReachableCount = 0;
@@ -233,7 +233,7 @@ void Query(char const *argv[]){
 		fprintf(nodeVisitedCountFile,"%f %d ",avgNodeVisited,maxNodeVisited);
 		fprintf(notReachableCountFile,"%d ",notReachableCount);
 
-		if(i == 1){
+		if(i == 2){
 			fprintf(queryTimeFile,"\n");
 			fprintf(IOCountFile,"\n");
 			fprintf(nodeVisitedCountFile,"\n");

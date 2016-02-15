@@ -93,7 +93,7 @@ int utility::readTopology(const char* fileName,vector<vector<pair<int,int> > >& 
 
 	if(sFileName.find("FB_BFS1")!=string::npos){
 		if(sFileName.find("SuperGraph")!=string::npos)
-			numEdge = readTopologyFormat1(fileName,topology,numSuperNode,' ');
+			numEdge = readTopologyFormat1(fileName,topology,numSuperNode,'\t');
 		else if(sFileName.find("bfs-1")!=string::npos)
 			numEdge = readTopologyFormat1(fileName,topology,FB_BFS1,' ');
 	}
@@ -101,7 +101,7 @@ int utility::readTopology(const char* fileName,vector<vector<pair<int,int> > >& 
 	return numEdge;
 }
 
-int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,char split_char){
+int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int> > >& topology,char split_char,const int maxVID){
 	string line;
 //	char split_char='\t';
 	int maxID=0;
@@ -139,6 +139,8 @@ int utility::scanTopologyFormat1(const char* fileName,vector<vector<pair<int,int
 //			}else{
 //				eID = got->second;
 //			}
+			if(tokens[i] > maxVID)
+				continue;
 
 			topology[tokens[0]].push_back(pair<int,int>(tokens[i],eID));
 		}
@@ -183,7 +185,7 @@ int  utility::readTopologyFormat1(const char* fileName,vector<vector<pair<int,in
 //	scanTopologyFormat1(fileName,topology,true); //collect info only
 	vector<pair<int,int> > adj;
 	topology.assign(numVertex,adj);
-	return scanTopologyFormat1(fileName,topology,split_char); //put tings into topology
+	return scanTopologyFormat1(fileName,topology,split_char,numVertex-1); //put tings into topology
 
 }
 

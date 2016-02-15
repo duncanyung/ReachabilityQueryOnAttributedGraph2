@@ -6,20 +6,20 @@ echo start_Run_Expr_Script
 
 
 	function=1
-#	fileName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork/roadNet-PA.txt'
-#	folderName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork'
-#	outFolderName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork/ExprResult'
+#	fileName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork/roadNet-PA.txt'
+#	folderName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork'
+#	outFolderName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/PA_RoadNetwork/ExprResult'
 
-	fileName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1/fb_bfs-1.txt'
-	folderName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1'
-	outFolderName='/home/skyline/Documents/Duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1/ExprResult'
+	fileName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1/bfs-1-socialgraph-release.txt'
+	folderName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1'
+	outFolderName='/home/dexter/Documents/duncan/ReachabilityQueryOnAttributedGraph_Data/FB_BFS1/ExprResult'
 
 	numEAttr=5
-	numVAttr=5
+	numVAttr=10
 	maxDomainSize=20
-	vRowSize=30
-	eRowSize=30
-	numQuery=1
+	vRowSize=60
+	eRowSize=60
+	numQuery=100
 	useConstraint=1
 	numSuperNode=100
 	synopsisSize=20
@@ -27,7 +27,7 @@ echo start_Run_Expr_Script
 	variable='VConstraint'
 
 	#generate Attribute
-	./main 1 $fileName $folderName $numVAttr $numEAttr $maxDomainSize $vRowSize $eRowSize
+#	./main 1 $fileName $folderName $numVAttr $numEAttr $maxDomainSize $vRowSize $eRowSize
 
 	#generate hash value
 #	./main 3 $fileName $folderName $numVAttr $numEAttr $maxDomainSize
@@ -35,7 +35,7 @@ echo start_Run_Expr_Script
 	#construct super graph and synopsis
 #	./main 4 $fileName $folderName $numVAttr $numEAttr $numSuperNode $synopsisSize $vRowSize $maxDomainSize
 
-###########################################################################################################################################33
+###########################################################################################################################################
 
 	numConstraint=0
 	#generate Queries
@@ -53,25 +53,25 @@ echo start_Run_Expr_Script
 	#generate Queries
 #	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
 	#query algorithm
-#	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
+	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
 
 	numConstraint=5
 	#generate Queries
-#	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
+	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
 	#query algorithm
-#	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
+	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
 
 	numConstraint=10
 	#generate Queries
-#	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
+	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
 	#query algorithm
-#	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
+	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
 
 	numConstraint=20
 	#generate Queries
-#	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
+	./main 5 $fileName $numQuery $folderName $numVAttr $numEAttr $numConstraint $maxDomainSize
 	#query algorithm
-#	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
+	./main 6 $fileName $folderName $numEAttr $numVAttr $vRowSize $eRowSize $numQuery $useConstraint $numSuperNode $synopsisSize $maxDomainSize $outFolderName $numConstraint $variable
 
 #	numConstraint=50
 	#generate Queries
